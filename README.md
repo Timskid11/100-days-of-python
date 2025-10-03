@@ -10,6 +10,7 @@ I’ll be committing each day’s work into its own folder:
 
 - [Day 01: Band Name Generator](./Day01_BandNameGenerator)  
 - [Day 02: Tip Calculator](./Day02_TipCalculator)  
+- [Day 03: TreasureIsland](./Day03_TreasureIsland)
 
 ---
 
