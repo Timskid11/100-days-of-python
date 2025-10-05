@@ -12,7 +12,7 @@ I’ll be committing each day’s work into its own folder:
 - [Day 02: Tip Calculator](./Day02_TipCalculator)  
 - [Day 03: TreasureIsland](./Day03_TreasureIsland)
 - [Day 04: RockPaperScissors](./Day04_RockPaperScissors)
-- [Day 05: PasswordGenerator](.Day05_PasswordGenerator)
+- [Day 05: PasswordGenerator](./Day05_PasswordGenerator)
 
 
 ---
