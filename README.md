@@ -13,7 +13,7 @@ I’ll be committing each day’s work into its own folder:
 - [Day 03: TreasureIsland](./Day03_TreasureIsland)
 - [Day 04: RockPaperScissors](./Day04_RockPaperScissors)
 - [Day 05: PasswordGenerator](./Day05_PasswordGenerator)
-
+- [Day 06: Reeborg’s World Maze Challenge](./Day06_MazeChallenge)
 
 ---
 
