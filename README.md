@@ -15,7 +15,7 @@ I’ll be committing each day’s work into its own folder:
 - [Day 05: PasswordGenerator](./Day05_PasswordGenerator)
 - [Day 06: Reeborg’s World Maze Challenge](./Day06_MazeChallenge)
 - [Day 07: Hangman Game](./Day07_Hangman)
-
+- [Day 08: Caesar Cipher Encryption](./Day08_CaesarCipher)	
 ---
 
 ## 🎯 Goals
