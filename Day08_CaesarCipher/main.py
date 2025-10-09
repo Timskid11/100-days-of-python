@@ -11,8 +11,8 @@ def caesar(text,shift,direction):
                if eachletter not in letters:
                    shifted_letter += eachletter
                else:
-                   
-                   eachlettershift = (letters.index(eachletter)) + shift
+                  
+                   eachlettershift = ((letters.index(eachletter)) + shift)
                    if eachlettershift >= 26:
                            eachlettershift -= 26
                            shifted_letter += letters[eachlettershift]                           
