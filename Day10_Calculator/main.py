@@ -1,3 +1,6 @@
+from art import logo
+print(logo)
+
 first = 0
 solution = 0
 def start(solution,first):
