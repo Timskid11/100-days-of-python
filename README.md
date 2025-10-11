@@ -18,6 +18,7 @@ I’ll be committing each day’s work into its own folder:
 - [Day 08: Caesar Cipher Encryption](./Day08_CaesarCipher)	
 - [Day 09: Secret Aunction](./Day09_SecretAunction)
 - [Day 10: Simple Calculator](./Day10_Calculator)
+- [Day 11: Black Jack Game](./Day11_BlackJack)
 ---
 
 ## 🎯 Goals
