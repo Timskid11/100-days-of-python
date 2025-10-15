@@ -21,6 +21,8 @@ I’ll be committing each day’s work into its own folder:
 - [Day 11: Black Jack Game](./Day11_BlackJack)
 - [Day 12: Number Guesser](./Day12_NumberGuesser)
 - [Day 14: Higher_Lower](./Day14_HigherLowerGame)
+- [Day 15: Cofee Machine](./Day15_CoffeeMachine)
+
 ---
 
 ## 🎯 Goals
