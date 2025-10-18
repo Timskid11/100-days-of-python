@@ -22,7 +22,8 @@ I’ll be committing each day’s work into its own folder:
 - [Day 12: Number Guesser](./Day12_NumberGuesser)
 - [Day 14: Higher_Lower](./Day14_HigherLowerGame)
 - [Day 15: Cofee Machine](./Day15_CoffeeMachine)
-
+- [Day 16: Coffee Machine using OOP objects](./Day16_OOPCoffeeMachine)
+- [Day 17: Quiz using OOP](./Day17_Quizz)
 ---
 
 ## 🎯 Goals
