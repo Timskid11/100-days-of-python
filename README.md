@@ -1,3 +1,4 @@
+
 # 100 Days of Python 🚀
 
 This repository documents my journey through the **100 Days of Python Bootcamp** by Angela Yu.  
@@ -25,6 +26,8 @@ I’ll be committing each day’s work into its own folder:
 - [Day 16: Coffee Machine using OOP objects](./Day16_OOPCoffeeMachine)
 - [Day 17: Quiz using OOP](./Day17_Quizz)
 - [Day18: HirstPainting using Turtke graphics](./Day18_HirstPainting)
+- [Day19: Etch a sketch and turtle race](./Day19_TURTLEPROJECTS)
+
 ---
 
 ## 🎯 Goals
