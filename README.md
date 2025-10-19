@@ -24,6 +24,7 @@ I’ll be committing each day’s work into its own folder:
 - [Day 15: Cofee Machine](./Day15_CoffeeMachine)
 - [Day 16: Coffee Machine using OOP objects](./Day16_OOPCoffeeMachine)
 - [Day 17: Quiz using OOP](./Day17_Quizz)
+- [Day18: HirstPainting using Turtke graphics](./Day18_HirstPainting)
 ---
 
 ## 🎯 Goals

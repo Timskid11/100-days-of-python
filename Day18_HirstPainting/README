@@ -1,0 +1,43 @@
+🗓️ Day 18 of #100DaysOfCode
+
+🎨 Projects & Challenges
+
+Today was all about creativity and patience!
+
+I explored Turtle Graphics even more deeply and worked on Damien Hirst’s spot painting project — a fun and colorful challenge that helped me understand how to use loops, random color generation, and positioning with the turtle module.
+
+Along the way, I also revisited some smaller challenges like:
+
+Drawing geometric shapes (squares, circles, and spirograph-style patterns)
+
+Experimenting with the turtle.circle() function and understanding the radius, extent, and steps parameters
+
+Practicing positioning and dot painting
+
+
+💡 Key Concepts Learned
+
+How to use RGB color tuples and colormode(255)
+
+Using loops and random modules to generate patterns
+
+Turtle’s dot(), penup(), and goto() for controlled placement
+
+The beauty of combining logic and art through code
+
+
+🖼️ Highlights
+
+Created a vibrant Hirst-style painting with random color spots neatly aligned on a grid — and it actually worked! 😅
+
+⚙️ Tools & Tech
+
+Python 🐍
+
+Turtle Graphics
+
+
+✨ Reflection
+
+This day reminded me that programming can be both logical and artistic. It’s satisfying to see code produce something visual and dynamic — and it’s even better when it looks like modern art!
+
