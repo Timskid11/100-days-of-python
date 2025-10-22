@@ -29,6 +29,11 @@ I’ll be committing each day’s work into its own folder:
 - [Day18: HirstPainting using Turtke graphics](./Day18_HirstPainting)
 - [Day19: Etch a sketch and turtle race](./Day19_TURTLEPROJECTS)
 - [Day20: SnakeGame1](./Day20_snakegame)	
+- [Day21: SnakeGame2] (./Day21_snakegame2)
+- [Day23: Ping Pong] (./Day22_PongGame)
+
+
+
 
 ---
 
