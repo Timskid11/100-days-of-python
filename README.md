@@ -32,7 +32,7 @@ I’ll be committing each day’s work into its own folder:
 - [Day21: SnakeGame2](./Day21_snakegame2)
 - [Day22: Ping Pong](./Day22_PongGame)
 - [Day23: TurtleCrossing](./Day23_TurtleCrossing)
-
+- [Day24: MailMerger](./Day24_MailMerger)
 
 
 ---
