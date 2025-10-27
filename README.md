@@ -34,6 +34,7 @@ I’ll be committing each day’s work into its own folder:
 - [Day23: TurtleCrossing](./Day23_TurtleCrossing)
 - [Day24: MailMerger](./Day24_MailMerger)
 - [Day25: US_map_game](./Day25_US_map_game)
+- [Day26: NATO Alphabet](./Day26_NATO_Alphabet_Converter)
 
 ---
 
