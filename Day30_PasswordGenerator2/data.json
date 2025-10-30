@@ -1,0 +1,10 @@
+{
+    "web": {
+        "email": "username",
+        "password": "password"
+    },
+    "timi": {
+        "email": "timTheEngineer@gmail",
+        "password": "arknet"
+    }
+}

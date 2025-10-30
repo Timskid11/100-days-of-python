@@ -37,6 +37,9 @@ I’ll be committing each day’s work into its own folder:
 - [Day26: NATO Alphabet](./Day26_NATO_Alphabet_Converter)
 - [Day27: Miles to km Converter](./Day27_MileToKmConverter_UsingTkinter)
 - [Day28: Pomodoro Timer](./Day28_PomodoroTimer)
+- [Day29: Password Generator](./Day29_PasswordGenerator)
+- [Day30: Password Generator](./Day30_PasswordGenerator2)
+
 
 
 
