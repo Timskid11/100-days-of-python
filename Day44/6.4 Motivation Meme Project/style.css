@@ -1,0 +1,23 @@
+body{
+background-color: black;
+
+}
+h1,p{
+    color: white;
+    background-color: black;
+    text-align: center;
+}
+h1{
+    text-transform: capitalize;
+}
+img{
+border: 5px solid white;
+width: 100%;
+
+}
+
+div{
+    width: 50%;
+    margin: 25%;
+
+}
