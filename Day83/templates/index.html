@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+       <title>Timilehin | Security Portfolio</title>
+       <meta charset="utf-8" />
+       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+       <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+       <noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/noscript.css') }}" /></noscript>
+
+       <style>
+           .terminal-box {
+               margin-top: 2rem;
+               padding: 10px;
+               background-color: rgba(0, 0, 0, 0.6);
+               border: 1px solid #00ff00;
+               color: #00ff00;
+               font-family: 'Courier New', monospace;
+               font-size: 0.8rem;
+               display: inline-block;
+               border-radius: 4px;
+           }
+           .blinking-cursor {
+               animation: blink 1s step-end infinite;
+           }
+           @keyframes blink { 50% { opacity: 0; } }
+       </style>
+        <style>
+    /* ... your existing terminal-box style ... */
+
+    /* MATRIX BACKGROUND STYLE */
+    canvas#matrix-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1; /* Puts it behind everything */
+        width: 100%;
+        height: 100%;
+        opacity: 0.8; /* Slight transparency so it's not too distracting */
+    }
+
+    /* Hide the old background div */
+    #bg { display: none !important; }
+</style>
+    </head>
+    <body class="is-preload">
+       <div id="wrapper">
+             <header id="header">
+                <div class="logo">
+                   <span class="icon fa-shield-alt"></span>
+                </div>
+                <div class="content">
+                   <div class="inner">
+                      <h1>Timilehin Oyinlola</h1>
+                      <p>I am <span id="typed-text" style="color: #fff; font-weight: bold;"></span></p>
+                   </div>
+                </div>
+                <nav>
+                   <ul>
+                      <li><a href="#intro">Intro</a></li>
+                      <li><a href="#work">Work</a></li>
+                      <li><a href="#about">About</a></li>
+                      <li><a href="#contact">Contact</a></li>
+                   </ul>
+                </nav>
+
+                <div class="terminal-box">
+                    <span class="icon fa-laptop-code"></span> SECURITY MONITOR<br>
+                    VISITOR IP: {{ ip }} <span class="blinking-cursor">_</span>
+                </div>
+             </header>
+
+             <div id="main">
+                <article id="intro">
+                   <h2 class="major">{{ greeting }}, I'm Timilehin</h2>
+                   <span class="image main"><img src="{{ url_for('static', filename='images/me.jpg') }}" alt="Timilehin Oyinlola" /></span>
+                   <p>I am a Python developer specializing in building secure systems and exploring the intersection of AI and Cybersecurity.</p>
+                </article>
+
+                <article id="work">
+                      <h2 class="major">Work</h2>
+                      {% for project in projects %}
+                      <h3>{{ project.title }}</h3>
+                      <span class="image main"><img src="{{ url_for('static', filename='images/' + project.image) }}" alt="" /></span>
+                      <p>{{ project.description }}</p>
+                      <hr />
+                      {% endfor %}
+                   </article>
+
+                <article id="about">
+                      <h2 class="major">About Me</h2>
+                      <p>Focused on Security Engineering in AI. Learning how to protect models and build robust backends.</p>
+                   </article>
+
+                <article id="contact">
+                      <h2 class="major">Contact</h2>
+                      {% if msg_sent %}
+                        <p style="color: #7cfc00; border: 1px solid #7cfc00; padding: 10px;">Message sent successfully!</p>
+                      {% endif %}
+                      <form method="post" action="{{ url_for('contact') }}">
+                         <div class="fields">
+                            <div class="field half">
+                               <label for="name">Name</label>
+                               <input type="text" name="name" id="name" required />
+                            </div>
+                            <div class="field half">
+                               <label for="email">Email</label>
+                               <input type="email" name="email" id="email" required />
+                            </div>
+                            <div class="field">
+                               <label for="message">Message</label>
+                               <textarea name="message" id="message" rows="4" required></textarea>
+                            </div>
+                         </div>
+                         <ul class="actions">
+                            <li><input type="submit" value="Send Message" class="primary" /></li>
+                         </ul>
+                      </form>
+                   </article>
+             </div>
+
+             <footer id="footer">
+                <p class="copyright">&copy; Built with Python & Flask.</p>
+             </footer>
+       </div>
+
+       <canvas id="matrix-bg"></canvas>
+
+       <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+       <script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+       <script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+       <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+       <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+       <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+       <script>
+            var typed = new Typed('#typed-text', {
+                strings: [
+                    "a Python Developer.",
+                    "an AI Enthusiast.",
+                    "a Future Security Engineer.",
+                    "building Secure AI."
+                ],
+                typeSpeed: 50,
+                backSpeed: 30,
+                loop: true
+            });
+       </script>
+    <script>
+    // MATRIX RAIN EFFECT
+    const canvas = document.getElementById('matrix-bg');
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas to full screen
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Characters to drop (Binary + some hacking symbols)
+    const chars = "0101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*";
+    const charArray = chars.split("");
+
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+
+    // Array to track the y-coordinate of each column
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+        drops[i] = 1;
+    }
+
+    function drawMatrix() {
+        // Black background with very low opacity to create "trail" effect
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Green text
+        ctx.fillStyle = "#0F0";
+        ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = charArray[Math.floor(Math.random() * charArray.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            // Reset drop to top randomly after it crosses screen
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+
+            drops[i]++;
+        }
+    }
+
+    // Run the animation every 33 milliseconds
+    setInterval(drawMatrix, 33);
+
+    // Fix resizing issue
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+</script>
+    </body>
+</html>
