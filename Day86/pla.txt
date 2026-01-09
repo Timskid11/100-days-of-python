@@ -1,0 +1,6 @@
+STEP 1: create the interface to have the following
+
+tkinter window
+display random words button on canvas
+
+input box for typing

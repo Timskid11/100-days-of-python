@@ -1,5 +1,3 @@
-
- 
 # 100 Days of Python 🚀
 
 This repository documents my journey through the **100 Days of Python Bootcamp** by Angela Yu.  
@@ -67,36 +65,48 @@ I’ll be committing each day’s work into its own folder:
 - [Day56: Name Card Website](./Day56)
 - [Day57: Blog Project — Part 1](./Day57)
 - [Day58: Blog Project — Part 2](./Day58)
-- [Day 59: Blog Capstone Project — Part 1](./Day59)
-- [Day 60: Blog Capstone Project — Part 2](./Day60)
-- [Day 61: Building Advanced Forms with Flask-WTForms](./Day61)
-- [Day 62: Flask, WTForms & Bootstrap — Coffee & WiFi Project](./Day62)
-- [Day 63: Databases with SQLite & SQLAlchemy](./Day63)
-- [Day 64: My Top 10 Movies Website](./Day64)
-- [Day 65: Web Design School — How to Create a Website People Love](./Day65)
-- [Day 66: Building Your Own RESTful API](./Day66)
-- [Day 67: Blog Capstone Project — Part 3 (RESTful Routing)](./Day67)
-- [Day 68: Authentication with Flask (Login & Register)](./Day68)
-- [Day 69: Blog Capstone Project — Part 4 (Users & Comments)](./Day69)
-- [Day 70: Deploying Your Web Application](./Day70)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- [Day59: Blog Capstone Project — Part 1](./Day59)
+- [Day60: Blog Capstone Project — Part 2](./Day60)
+- [Day61: Building Advanced Forms with Flask-WTForms](./Day61)
+- [Day62: Flask, WTForms & Bootstrap — Coffee & WiFi Project](./Day62)
+- [Day63: Databases with SQLite & SQLAlchemy](./Day63)
+- [Day64: My Top 10 Movies Website](./Day64)
+- [Day65: Web Design School — How to Create a Website People Love](./Day65)
+- [Day66: Building Your Own RESTful API](./Day66)
+- [Day67: Blog Capstone Project — Part 3 (RESTful Routing)](./Day67)
+- [Day68: Authentication with Flask (Login & Register)](./Day68)
+- [Day69: Blog Capstone Project — Part 4 (Users & Comments)](./Day69)
+- [Day70: Deploying Your Web Application](./Day70)
+- [Day71: Advanced Flask Project — E-Commerce Starter](./Day71)  
+- [Day72: Flask Forms & Validation](./Day72)  
+- [Day73: Flask User Profiles](./Day73)  
+- [Day74: Flask Authentication — OAuth Login](./Day74)  
+- [Day75: Flask Database Relationships](./Day75)  
+- [Day76: Flask API Project — JSON Handling](./Day76)  
+- [Day77: Flask API Project — GET & POST Requests](./Day77)  
+- [Day78: Flask API Project — JWT Authentication](./Day78)  
+- [Day79: Advanced Python Functions & Modules](./Day79)  
+- [Day80: Object-Oriented Programming Deep Dive](./Day80)  
+- [Day81: Advanced File Handling & CSVs](./Day81)  
+- [Day82: Web Scraping with BeautifulSoup](./Day82)  
+- [Day83: Web Scraping Project — News Headlines](./Day83)  
+- [Day84: Automation Project — Google Forms Automation](./Day84)  
+- [Day85: Automation Project — PDF Manipulation](./Day85)  
+- [Day86: Automation Project — Excel / Google Sheets](./Day86)  
+- [Day87: Advanced Turtle Graphics Project](./Day87)  
+- [Day88: Data Analysis with Pandas](./Day88)  
+- [Day89: Data Visualization with Matplotlib & Seaborn](./Day89)  
+- [Day90: API Integration Project — Weather App](./Day90)  
+- [Day91: API Integration Project — Flight / Travel Data](./Day91)  
+- [Day92: Python GUI — Tkinter Advanced Widgets](./Day92)  
+- [Day93: Python GUI — Mini Game or Tool](./Day93)  
+- [Day94: Advanced Python — Decorators & Generators](./Day94)  
+- [Day95: Advanced Python — Context Managers & Error Handling](./Day95)  
+- [Day96: Capstone Project Planning](./Day96)  
+- [Day97: Capstone Project Development — Part 1](./Day97)  
+- [Day98: Capstone Project Development — Part 2](./Day98)  
+- [Day99: Capstone Project Development — Part 3](./Day99)  
+- [Day100: Capstone Project Presentation & Reflection](./Day100)  
 
 ---
 

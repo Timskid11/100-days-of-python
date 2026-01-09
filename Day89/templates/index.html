@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% from 'bootstrap5/form.html' import render_form %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>My Tasks</h1>
+
+    <div class="form-box">
+        {{ render_form(form, novalidate=True) }}
+    </div>
+
+    <ul class="todo-list">
+        {% for row in database %}
+        <li class="todo-item">
+            <label class="checkbox">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>
+
+            <span class="task-text">
+                {{ row.to_do }}
+            </span>
+
+            <a class="delete-btn" href="{{ url_for('delete_task', task_id=row.id) }}">
+                ✕
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>

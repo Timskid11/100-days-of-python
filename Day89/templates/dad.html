@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Prostate Wellness | Free Training</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'moss-black': '#0f1f15',
+                        'moss-green': '#1a3c28',
+                        'paper': '#f2f0e9',
+                        'earth-gold': '#c58f55',
+                        'rust': '#a85a3b'
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Manrope', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.07%22/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom aesthetics to avoid "AI Slop" */
+        body {
+            background-color: #f2f0e9;
+            color: #0f1f15;
+        }
+
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E');
+        }
+
+        .editorial-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #1a3c28, transparent);
+        }
+
+        /* Subtle animations for interaction */
+        .btn-hover {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(168, 90, 59, 0.4);
+        }
+
+        .scrolling-text-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased relative">
+
+    <div class="texture-overlay"></div>
+
+    <nav class="w-full py-6 px-6 md:px-12 flex justify-between items-center border-b border-moss-green/10">
+        <div class="font-serif font-bold text-xl tracking-widest text-moss-green">NATURE'S PROTOCOL</div>
+        <div class="text-xs font-bold tracking-widest uppercase text-earth-gold hidden md:block">Est. Natural Solutions</div>
+    </nav>
+
+    <header class="relative w-full min-h-screen flex flex-col justify-center items-center px-6 pt-10 pb-20 overflow-hidden">
+
+        <div class="absolute top-0 right-0 w-2/3 h-full bg-moss-green opacity-5 -z-10 blur-3xl rounded-full translate-x-1/3"></div>
+
+        <div class="max-w-4xl text-center z-10">
+            <span class="inline-block py-1 px-3 border border-moss-green/30 rounded-full text-xs font-bold tracking-widest text-moss-green mb-6 bg-white/50 backdrop-blur-sm">
+                MEN'S WELLNESS INITIATIVE
+            </span>
+
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-moss-black mb-8">
+                RECLAIM THE <br>
+                <span class="italic text-earth-gold">SILENT</span> NIGHT.
+            </h1>
+
+            <p class="text-lg md:text-xl text-moss-green/80 max-w-xl mx-auto mb-12 font-medium leading-relaxed">
+                Stop waking up 5 times a night. Discover the ancient herbal wisdom that is helping Nigerian men shrink prostate swelling without surgery.
+            </p>
+
+            <a href="https://wa.me/2348033535054?text=I%20want%20to%20join%20the%20free%20prostate%20training"
+               class="btn-hover inline-flex items-center gap-3 bg-moss-green text-paper px-8 py-4 md:px-10 md:py-5 rounded-none text-sm md:text-base font-bold tracking-widest uppercase border border-moss-black">
+                <span>Start Free WhatsApp Training</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+            </a>
+
+            <p class="mt-4 text-xs text-moss-green/60">Free Access • No Spam • 100% Natural Approach</p>
+        </div>
+    </header>
+
+    <section class="bg-moss-black text-paper py-24 px-6 relative">
+        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+
+            <div class="space-y-8">
+                <h2 class="font-serif text-4xl md:text-5xl leading-none">
+                    IT STARTS WITH <br>
+                    <span class="text-rust">ONE TRIP.</span>
+                </h2>
+                <div class="w-12 h-1 bg-rust"></div>
+                <p class="text-paper/70 text-lg font-light leading-relaxed">
+                    Then two. Then four. Soon, you aren't sleeping at all. You are just waiting for the next urge.
+                </p>
+                <p class="text-paper/70 text-lg font-light leading-relaxed">
+                    Weak flow. Straining. The fear of "wetting" yourself in public. This isn't just "aging." This is your body shouting for help.
+                </p>
+            </div>
+
+            <div class="border border-white/10 p-8 md:p-12 bg-white/5 backdrop-blur-sm relative">
+                <div class="absolute -top-6 -left-6 text-8xl font-serif text-white/10">"</div>
+
+                <ul class="space-y-6">
+                    <li class="flex items-start gap-4">
+                        <span class="text-earth-gold mt-1">✕</span>
+                        <span class="font-medium">Feeling like the bladder is never empty.</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="text-earth-gold mt-1">✕</span>
+                        <span class="font-medium">Loss of energy and "man power."</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="text-earth-gold mt-1">✕</span>
+                        <span class="font-medium">Facing expensive, risky surgeries.</span>
+                    </li>
+                </ul>
+                <div class="mt-8 pt-8 border-t border-white/10">
+                    <p class="text-earth-gold font-serif italic text-xl">"I thought surgery was my only option until I found this."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-paper">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h2 class="font-serif text-3xl md:text-5xl text-moss-black mb-6">NATURE'S BLUEPRINT</h2>
+            <p class="text-moss-green text-lg max-w-2xl mx-auto">
+                We don't sell pills. We teach a lifestyle. In our exclusive class, we reveal the specific roots and herbs that target the prostate directly.
+            </p>
+        </div>
+
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+            <div class="group border border-moss-green/10 bg-white p-8 hover:border-rust transition-colors duration-300">
+                <div class="h-12 w-12 bg-moss-green/10 text-moss-green flex items-center justify-center mb-6 rounded-full group-hover:bg-rust group-hover:text-white transition-colors">
+                    01
+                </div>
+                <h3 class="font-serif text-xl font-bold mb-4">The Herbal List</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">Discover the exact Nigerian herbs that have been proven to reduce inflammation and shrink prostate size naturally.</p>
+            </div>
+
+            <div class="group border border-moss-green/10 bg-white p-8 hover:border-rust transition-colors duration-300">
+                <div class="h-12 w-12 bg-moss-green/10 text-moss-green flex items-center justify-center mb-6 rounded-full group-hover:bg-rust group-hover:text-white transition-colors">
+                    02
+                </div>
+                <h3 class="font-serif text-xl font-bold mb-4">Toxic Foods</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">Learn which popular foods are secretly feeding your prostate enlargement and how to eliminate them today.</p>
+            </div>
+
+            <div class="group border border-moss-green/10 bg-white p-8 hover:border-rust transition-colors duration-300">
+                <div class="h-12 w-12 bg-moss-green/10 text-moss-green flex items-center justify-center mb-6 rounded-full group-hover:bg-rust group-hover:text-white transition-colors">
+                    03
+                </div>
+                <h3 class="font-serif text-xl font-bold mb-4">Daily Routine</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">A simple 10-minute morning protocol that restores flow, vitality, and confidence within weeks.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-moss-green relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#c58f55 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+        <div class="relative z-10 max-w-3xl mx-auto text-center text-paper">
+            <h2 class="font-serif text-4xl md:text-6xl mb-8">Ready to Sleep Again?</h2>
+            <p class="text-lg md:text-xl font-light mb-12 opacity-90">
+                Join over 1,000 men in our private community. This training is 100% free, but the peace of mind is priceless.
+            </p>
+
+            <a href="https://wa.me/2348033535054?text=I%20want%20to%20join%20the%20free%20prostate%20training"
+               class="btn-hover inline-block bg-earth-gold text-moss-black px-12 py-5 text-lg font-bold tracking-widest uppercase shadow-2xl hover:bg-white hover:text-moss-green">
+                Join WhatsApp Training
+            </a>
+            <p class="mt-6 text-sm opacity-60">Clicking will open WhatsApp directly.</p>
+        </div>
+    </section>
+
+    <footer class="bg-moss-black text-paper/40 py-12 border-t border-white/5 text-center text-xs tracking-wider uppercase">
+        <p>&copy; 2025 Natural Wellness Initiative. All Rights Reserved.</p>
+        <p class="mt-2">Disclaimer: This site is not a part of the Facebook website or Facebook Inc.</p>
+    </footer>
+
+</body>
+</html>

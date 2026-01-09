@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>⛽ CrudeWatch – Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family:'Source Sans Pro',sans-serif;
+    background:#121212;
+    color:#eee;
+    margin:0;
+    padding:0;
+}
+h1 {
+    font-family:'Playfair Display',serif;
+    color:#ff4e00;
+    font-size:3em;
+    text-align:center;
+    margin:30px 0 10px;
+}
+h2 {
+    color:#ffb570;
+    margin-top:30px;
+    margin-bottom:15px;
+    font-size:1.8em;
+    border-bottom:2px solid #ff4e00;
+    padding-bottom:5px;
+}
+.container { width:90%; max-width:900px; margin:0 auto; padding:20px;}
+section { margin-bottom:40px; }
+button {
+    padding:8px 12px;
+    margin-left:5px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    color:#fff;
+}
+.approve { background:green; }
+.reject { background:red; }
+.admin-logout {
+    background:#444;
+    color:#fff;
+    padding:10px 16px;
+    border-radius:8px;
+    margin-bottom:20px;
+    cursor:pointer;
+}
+ul { list-style:none; padding:0; max-height:400px; overflow-y:auto; }
+li {
+    background:rgba(255,255,255,0.05);
+    padding:12px 15px;
+    margin:8px 0;
+    border-radius:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:0.2s;
+}
+li:hover { background:rgba(255,78,0,0.1); }
+.badge { padding:4px 8px; border-radius:5px; font-weight:bold; margin-left:5px; }
+.pending { background:yellow; color:#000; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>⛽ CrudeWatch – Admin Dashboard</h1>
+<button class="admin-logout" onclick="logout()">Logout</button>
+
+<!-- Pending Users -->
+<section>
+<h2>Pending Users</h2>
+<ul id="pendingUsers">
+    <li>Loading...</li>
+</ul>
+</section>
+
+<!-- Pending Prices -->
+<section>
+<h2>Pending Prices</h2>
+<ul id="pendingPrices">
+    <li>Loading...</li>
+</ul>
+</section>
+</div>
+
+<script>
+// ---------------------------
+// Load pending users and prices
+// ---------------------------
+async function loadAdminData(){
+    const res = await fetch("/admin-data");
+    if(res.status !== 200){
+        alert("Admin access required!");
+        window.location.href="/";
+        return;
+    }
+    const data = await res.json();
+
+    // Users
+    const usersList = document.getElementById("pendingUsers");
+    usersList.innerHTML="";
+    if(data.users.length===0) usersList.innerHTML="<li>No pending users</li>";
+    data.users.forEach(u=>{
+        const li = document.createElement("li");
+        li.innerHTML = `${u.full_name} (${u.email})
+        <span>
+        <button class="approve" onclick="approveUser('${u.email}')">Approve</button>
+        <button class="reject" onclick="rejectUser('${u.email}')">Reject</button>
+        </span>`;
+        usersList.appendChild(li);
+    });
+
+    // Prices
+    const pricesList = document.getElementById("pendingPrices");
+    pricesList.innerHTML="";
+    if(data.prices.length===0) pricesList.innerHTML="<li>No pending prices</li>";
+    data.prices.forEach(p=>{
+        const li = document.createElement("li");
+        li.innerHTML = `ID ${p.id} – <b>${p.station}</b> (${p.location}) – ₦${p.price} | ${p.updated_at}
+        <span>
+        <button class="approve" onclick="approvePrice(${p.id})">Approve</button>
+        <button class="reject" onclick="rejectPrice(${p.id})">Reject</button>
+        </span>`;
+        pricesList.appendChild(li);
+    });
+}
+
+// ---------------------------
+// Approve / Reject Users
+// ---------------------------
+async function approveUser(email){
+    const res = await fetch("/admin/approve-user",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({email})
+    });
+    const data = await res.json();
+    alert(data.message || data.error);
+    loadAdminData();
+}
+
+async function rejectUser(email){
+    const res = await fetch("/admin/reject-user",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({email})
+    });
+    const data = await res.json();
+    alert(data.message || data.error);
+    loadAdminData();
+}
+
+// ---------------------------
+// Approve / Reject Prices
+// ---------------------------
+async function approvePrice(id){
+    const res = await fetch("/admin/approve-price",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({id})
+    });
+    const data = await res.json();
+    alert(data.message || data.error);
+    loadAdminData();
+}
+
+async function rejectPrice(id){
+    const res = await fetch("/admin/reject-price",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({id})
+    });
+    const data = await res.json();
+    alert(data.message || data.error);
+    loadAdminData();
+}
+
+// ---------------------------
+// Logout
+// ---------------------------
+function logout(){
+    fetch("/admin-logout").then(()=>window.location.href="/");
+}
+
+// ---------------------------
+// Initial load
+// ---------------------------
+loadAdminData();
+</script>
+</body>
+</html>

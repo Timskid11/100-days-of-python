@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% from 'bootstrap5/form.html' import render_form %}
+<html>
+<head>
+    <title>Image Color Analyzer</title>
+</head>
+<body>
+    <h2>Image Color Selector</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {{ render_form(form, novalidate=True) }}
+    </form>
+    <img src="{{img}}" alt="Image to be Scanned">
+    {% if colors %}
+        <img src="{{img}}" alt="Image to be Scanned">
+        <h3>Top Colors</h3>
+        <ul>
+            {% for color, count in colors %}
+                <li>RGB {{ color }} → {{ count }} pixels</li>
+
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
