@@ -2,8 +2,7 @@ import os
 import secrets
 from datetime import datetime
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
-import psycopg2
-from psycopg2.extras import RealDictCursor
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -11,61 +10,46 @@ app.secret_key = secrets.token_hex(16)
 # =========================
 # CONFIG
 # =========================
-ADMIN_KEY = "tim"  # Change this if you want
-# Get DB URL from Render Environment Variable
-DATABASE_URL = os.environ.get("DATABASE_URL")
+ADMIN_KEY = "tim"  # CHANGE THIS to your preferred secret
+
+# DB CONFIGURATION
+# This handles the switch: Local -> SQLite, Render -> PostgreSQL
+uri = os.environ.get("DATABASE_URL", "sqlite:///stations.db")
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)  # Fix for Render/SQLAlchemy compatibility
+app.config["SQLALCHEMY_DATABASE_URI"] = uri
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
 
 
 # =========================
-# DATABASE CONNECTION
+# DATABASE MODELS
 # =========================
-def get_db_connection():
-    conn = psycopg2.connect(DATABASE_URL)
-    return conn
+class Price(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    station = db.Column(db.String(100), nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    verified = db.Column(db.Integer, default=0)  # 0=Pending, 1=Verified
+    updated_at = db.Column(db.String(50))
 
 
-def init_db():
-    try:
-        conn = get_db_connection()
-        cur = conn.cursor()
-
-        # Create Prices table
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS prices (
-                id SERIAL PRIMARY KEY,
-                station TEXT NOT NULL,
-                location TEXT NOT NULL,
-                price REAL NOT NULL,
-                verified INTEGER DEFAULT 0,
-                updated_at TEXT
-            );
-        """)
-
-        # Create Users table
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS users (
-                id SERIAL PRIMARY KEY,
-                full_name TEXT NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                phone TEXT NOT NULL,
-                address TEXT NOT NULL,
-                api_key TEXT UNIQUE,
-                role TEXT DEFAULT 'public',
-                approved INTEGER DEFAULT 0,
-                applied_at TEXT
-            );
-        """)
-
-        conn.commit()
-        cur.close()
-        conn.close()
-        print("Database initialized successfully.")
-    except Exception as e:
-        print(f"DB Init Error: {e}")
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    full_name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    address = db.Column(db.String(200), nullable=False)
+    api_key = db.Column(db.String(100), unique=True)
+    role = db.Column(db.String(20), default='public')
+    approved = db.Column(db.Integer, default=0)
+    applied_at = db.Column(db.String(50))
 
 
-# Initialize DB (Run this on startup)
-init_db()
+# Initialize Tables
+with app.app_context():
+    db.create_all()
 
 
 # =========================
@@ -75,26 +59,12 @@ def generate_api_key():
     return secrets.token_hex(16)
 
 
-def get_user_by_key(api_key):
-    if not api_key:
-        return None
-    try:
-        conn = get_db_connection()
-        cur = conn.cursor(cursor_factory=RealDictCursor)
-        cur.execute("SELECT * FROM users WHERE api_key = %s", (api_key,))
-        user = cur.fetchone()
-        cur.close()
-        conn.close()
-        return user
-    except Exception as e:
-        print(f"Error getting user: {e}")
-        return None
-
-
 def require_trusted_user():
     api_key = request.headers.get("X-API-KEY")
-    user = get_user_by_key(api_key)
-    if not user or user["approved"] != 1 or user["role"] not in ["trusted", "admin"]:
+    if not api_key:
+        return None
+    user = User.query.filter_by(api_key=api_key).first()
+    if not user or user.approved != 1 or user.role not in ["trusted", "admin"]:
         return None
     return user
 
@@ -142,17 +112,9 @@ def admin_page():
     if not require_admin():
         return redirect(url_for("home"))
 
-    conn = get_db_connection()
-    cur = conn.cursor(cursor_factory=RealDictCursor)
+    pending_users = User.query.filter_by(approved=0).all()
+    pending_prices = Price.query.filter_by(verified=0).order_by(Price.updated_at.desc()).all()
 
-    cur.execute("SELECT * FROM users WHERE approved=0")
-    pending_users = cur.fetchall()
-
-    cur.execute("SELECT * FROM prices WHERE verified=0 ORDER BY updated_at DESC")
-    pending_prices = cur.fetchall()
-
-    cur.close()
-    conn.close()
     return render_template("admin.html", users=pending_users, prices=pending_prices)
 
 
@@ -164,15 +126,13 @@ def approve_user():
     if not require_admin():
         return jsonify({"error": "Forbidden"}), 403
     email = request.json.get("email")
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("UPDATE users SET approved=1, role='trusted' WHERE email=%s AND approved=0", (email,))
-    rowcount = cur.rowcount
-    conn.commit()
-    cur.close()
-    conn.close()
-    if rowcount == 0:
+    user = User.query.filter_by(email=email, approved=0).first()
+    if not user:
         return jsonify({"error": "User not found or already approved"}), 404
+
+    user.approved = 1
+    user.role = 'trusted'
+    db.session.commit()
     return jsonify({"message": "User approved as trusted"})
 
 
@@ -181,15 +141,12 @@ def reject_user():
     if not require_admin():
         return jsonify({"error": "Forbidden"}), 403
     email = request.json.get("email")
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("DELETE FROM users WHERE email=%s AND approved=0", (email,))
-    rowcount = cur.rowcount
-    conn.commit()
-    cur.close()
-    conn.close()
-    if rowcount == 0:
-        return jsonify({"error": "User not found or already approved"}), 404
+    user = User.query.filter_by(email=email, approved=0).first()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    db.session.delete(user)
+    db.session.commit()
     return jsonify({"message": "User rejected successfully"})
 
 
@@ -198,15 +155,12 @@ def approve_price():
     if not require_admin():
         return jsonify({"error": "Forbidden"}), 403
     price_id = request.json.get("id")
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("UPDATE prices SET verified=1 WHERE id=%s AND verified=0", (price_id,))
-    rowcount = cur.rowcount
-    conn.commit()
-    cur.close()
-    conn.close()
-    if rowcount == 0:
-        return jsonify({"error": "Price not found or already verified"}), 404
+    price_item = Price.query.filter_by(id=price_id, verified=0).first()
+    if not price_item:
+        return jsonify({"error": "Price not found"}), 404
+
+    price_item.verified = 1
+    db.session.commit()
     return jsonify({"message": "Price approved successfully"})
 
 
@@ -215,15 +169,12 @@ def reject_price():
     if not require_admin():
         return jsonify({"error": "Forbidden"}), 403
     price_id = request.json.get("id")
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("DELETE FROM prices WHERE id=%s AND verified=0", (price_id,))
-    rowcount = cur.rowcount
-    conn.commit()
-    cur.close()
-    conn.close()
-    if rowcount == 0:
-        return jsonify({"error": "Price not found or already verified"}), 404
+    price_item = Price.query.filter_by(id=price_id, verified=0).first()
+    if not price_item:
+        return jsonify({"error": "Price not found"}), 404
+
+    db.session.delete(price_item)
+    db.session.commit()
     return jsonify({"message": "Price rejected successfully"})
 
 
@@ -236,19 +187,18 @@ def submit_price():
     if not all(k in data for k in ("station", "location", "price")):
         return jsonify({"error": "Missing fields"}), 400
     try:
-        price = float(data["price"])
+        price_val = float(data["price"])
     except:
         return jsonify({"error": "Price must be a number"}), 400
 
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("""
-        INSERT INTO prices (station, location, price, updated_at)
-        VALUES (%s, %s, %s, %s)
-    """, (data["station"], data["location"], price, datetime.now().isoformat()))
-    conn.commit()
-    cur.close()
-    conn.close()
+    new_price = Price(
+        station=data["station"],
+        location=data["location"],
+        price=price_val,
+        updated_at=datetime.now().isoformat()
+    )
+    db.session.add(new_price)
+    db.session.commit()
     return jsonify({"message": "Price submitted (Pending verification)"}), 201
 
 
@@ -257,13 +207,19 @@ def submit_price():
 # -------------------------
 @app.route("/prices")
 def get_prices():
-    conn = get_db_connection()
-    cur = conn.cursor(cursor_factory=RealDictCursor)
-    cur.execute("SELECT * FROM prices ORDER BY updated_at DESC")
-    rows = cur.fetchall()
-    cur.close()
-    conn.close()
-    return jsonify([dict(r) for r in rows])
+    prices = Price.query.order_by(Price.updated_at.desc()).all()
+    # Convert SQL objects to dictionary list
+    output = []
+    for p in prices:
+        output.append({
+            "id": p.id,
+            "station": p.station,
+            "location": p.location,
+            "price": p.price,
+            "verified": p.verified,
+            "updated_at": p.updated_at
+        })
+    return jsonify(output)
 
 
 # -------------------------
@@ -272,26 +228,25 @@ def get_prices():
 @app.route("/apply", methods=["POST"])
 def apply_for_trust():
     data = request.json or {}
-    required_fields = ["full_name", "email", "phone", "address"]
-    for field in required_fields:
-        if not data.get(field):
-            return jsonify({"error": f"{field} is required"}), 400
-    api_key = generate_api_key()
+    if not all(k in data for k in ("full_name", "email", "phone", "address")):
+        return jsonify({"error": "Missing fields"}), 400
 
-    conn = get_db_connection()
-    cur = conn.cursor()
-    try:
-        cur.execute("""
-            INSERT INTO users (full_name, email, phone, address, api_key, applied_at)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, (data["full_name"], data["email"], data["phone"], data["address"], api_key, datetime.now().isoformat()))
-        conn.commit()
-    except psycopg2.IntegrityError:
-        conn.rollback()
+    # Check if exists
+    if User.query.filter_by(email=data["email"]).first():
         return jsonify({"error": "User already exists"}), 409
-    finally:
-        cur.close()
-        conn.close()
+
+    api_key = generate_api_key()
+    new_user = User(
+        full_name=data["full_name"],
+        email=data["email"],
+        phone=data["phone"],
+        address=data["address"],
+        api_key=api_key,
+        applied_at=datetime.now().isoformat()
+    )
+
+    db.session.add(new_user)
+    db.session.commit()
     return jsonify({"message": "Application submitted. Await admin approval.", "api_key": api_key})
 
 
@@ -305,14 +260,16 @@ def update_price_trusted():
         return jsonify({"error": "Unauthorized"}), 401
     data = request.json or {}
 
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("UPDATE prices SET price=%s, verified=1, updated_at=%s WHERE id=%s",
-                (data["price"], datetime.now().isoformat(), data["id"]))
-    conn.commit()
-    cur.close()
-    conn.close()
-    return jsonify({"message": "Price verified and updated", "verified_by": user["email"]})
+    price_item = Price.query.get(data.get("id"))
+    if not price_item:
+        return jsonify({"error": "Price ID not found"}), 404
+
+    price_item.price = data["price"]
+    price_item.verified = 1
+    price_item.updated_at = datetime.now().isoformat()
+    db.session.commit()
+
+    return jsonify({"message": "Price verified and updated", "verified_by": user.email})
 
 
 # -------------------------
@@ -323,20 +280,25 @@ def admin_data():
     if not require_admin():
         return jsonify({"error": "Forbidden"}), 403
 
-    conn = get_db_connection()
-    cur = conn.cursor(cursor_factory=RealDictCursor)
+    pending_users = User.query.filter_by(approved=0).all()
+    pending_prices = Price.query.filter_by(verified=0).order_by(Price.updated_at.desc()).all()
 
-    cur.execute("SELECT * FROM users WHERE approved=0")
-    pending_users = cur.fetchall()
+    # Manual serialization
+    users_list = [{
+        "full_name": u.full_name,
+        "email": u.email,
+        "phone": u.phone,
+        "address": u.address,
+        "applied_at": u.applied_at
+    } for u in pending_users]
 
-    cur.execute("SELECT * FROM prices WHERE verified=0 ORDER BY updated_at DESC")
-    pending_prices = cur.fetchall()
-
-    cur.close()
-    conn.close()
-
-    users_list = [dict(u) for u in pending_users]
-    prices_list = [dict(p) for p in pending_prices]
+    prices_list = [{
+        "id": p.id,
+        "station": p.station,
+        "location": p.location,
+        "price": p.price,
+        "updated_at": p.updated_at
+    } for p in pending_prices]
 
     return jsonify({"users": users_list, "prices": prices_list})
 
