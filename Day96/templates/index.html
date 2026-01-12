@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>⛽ CrudeWatch – Community Fuel Prices</title>
+<title>⛽ CrudeWatch – Fuel Prices</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
 <style>
 /* Base Styles */
@@ -16,174 +16,229 @@ body {
     padding:0;
     line-height: 1.6;
 }
-h1 {
-    font-family:'Playfair Display',serif;
-    color:#ff4e00;
-    font-size:2.5em; /* Slightly smaller for mobile safety */
-    text-align:center;
-    margin:30px 0 10px;
-}
-h2 {
-    color:#ffb570;
-    margin-top:30px;
-    margin-bottom:15px;
-    font-size:1.5em;
-    border-bottom:2px solid #ff4e00;
-    padding-bottom:5px;
-}
 .container { 
     width:90%; 
-    max-width:800px; 
+    max-width:600px; /* Narrower container for a cleaner "app" feel */
     margin:0 auto; 
     padding:20px;
 }
-section { margin-bottom:40px; }
 
-/* Form Elements - Made Touch-Friendly */
+/* Headers */
+h1 {
+    font-family:'Playfair Display',serif;
+    color:#ff4e00;
+    font-size:2.2em;
+    text-align:center;
+    margin:20px 0 30px;
+}
+h2 {
+    color:#fff;
+    font-size:1.2em;
+    margin-bottom:15px;
+    border-left: 4px solid #ff4e00;
+    padding-left: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+section { margin-bottom:50px; }
+
+/* CLEAN PRICE LIST STYLES (The Important Part) */
+ul { list-style:none; padding:0; }
+
+.price-item {
+    background: #1e1e1e;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    border-left: 5px solid #333; /* Default border */
+    transition: transform 0.2s;
+}
+.price-item:hover { transform: translateY(-2px); }
+
+/* Status Color Coding */
+.status-verified { border-left-color: #00c853; }
+.status-pending { border-left-color: #ffd700; }
+
+.station-info { display: flex; flex-direction: column; }
+.station-name { 
+    font-size: 1.1em; 
+    font-weight: 700; 
+    color: #fff; 
+}
+.station-loc { 
+    font-size: 0.85em; 
+    color: #888; 
+    margin-top: 4px; 
+}
+
+.price-info { text-align: right; }
+.price-val { 
+    font-size: 1.4em; 
+    font-weight: 700; 
+    color: #ff4e00; 
+}
+.price-badge { 
+    font-size: 0.7em; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    font-weight: bold;
+    opacity: 0.8;
+}
+.text-green { color: #00c853; }
+.text-yellow { color: #ffd700; }
+
+
+/* Form Elements */
 input, button {
-    padding:15px; /* Larger touch target */
+    padding:14px;
     margin:8px 0;
     border-radius:8px;
     border:none;
     font-size:1rem;
-    width: 100%; /* Full width on mobile */
-    box-sizing: border-box; /* Ensures padding doesn't break width */
+    width: 100%;
+    box-sizing: border-box;
+    background:#222; 
+    color:#eee; 
+    border: 1px solid #333;
 }
-input { background:#222; color:#eee; border: 1px solid #333; }
-input:focus { outline: 2px solid #ff4e00; background: #333; }
+input:focus { outline: 2px solid #ff4e00; background: #2a2a2a; }
 
 button {
     background:#ff4e00;
     color:#fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     cursor:pointer;
-    font-weight: 600;
-    transition:0.3s;
 }
-button:hover { background:#ff7044; }
+button:active { transform: scale(0.98); }
 
-/* Price Card */
-.price-card {
-    background:linear-gradient(145deg, rgba(255,78,0,0.2), rgba(255,78,0,0.05));
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:20px;
-    font-size:1.2em;
-    text-align:center;
-    border: 1px solid rgba(255,78,0,0.3);
-}
-
-/* List Items */
-ul { list-style:none; padding:0; }
-li {
-    background:rgba(255,255,255,0.05);
-    padding:15px;
-    margin-bottom:10px;
-    border-radius:10px;
-    display:flex;
-    flex-direction: column; /* Stack items on mobile */
-    gap: 5px;
-    border-left: 4px solid #ff4e00;
-}
-/* Tablet/Desktop Tweaks */
-@media (min-width: 600px) {
-    li { 
-        flex-direction: row; 
-        justify-content:space-between; 
-        align-items:center; 
-    }
-}
-
-.badge { 
-    padding:4px 8px; 
-    border-radius:5px; 
-    font-weight:bold; 
-    font-size: 0.8em;
-    display: inline-block;
-    width: fit-content;
-}
-.pending { background: #ffd700; color:#000; }
-.verified { background: #00c853; color:#fff; }
-
-.admin-btn {
-    background:#444;
-    margin-top: 10px;
-}
+/* Admin Button */
+.admin-btn { background:#333; color: #888; margin-top: 20px; font-size: 0.8em;}
 </style>
 </head>
 <body>
 
 <div class="container">
-<h1>⛽ CrudeWatch</h1>
+    <h1>⛽ CrudeWatch</h1>
 
-<section>
-    <div class="price-card" id="priceSnapshot">Loading prices...</div>
-</section>
+    <section>
+        <div style="text-align: center; margin-bottom: 20px; color: #888; font-size: 0.9em;" id="priceSnapshot">
+            Loading average...
+        </div>
+        <ul id="prices"></ul>
+    </section>
 
-<section>
-<h2>Submit Price ⛽</h2>
-<form onsubmit="submitPrice(); return false;">
-<input id="station" placeholder="Station Name (e.g. NNPC)" required>
-<input id="location" placeholder="Location (e.g. Ikeja)" required>
-<input id="price" type="number" placeholder="Price (₦)" required>
-<button type="submit">Submit Price</button>
-</form>
-</section>
+    <section>
+        <h2>Report Price 📝</h2>
+        <form onsubmit="submitPrice(); return false;">
+            <input id="station" placeholder="Station Name (e.g. NNPC)" required>
+            <input id="location" placeholder="Location (e.g. Ikeja Underbridge)" required>
+            <input id="price" type="number" placeholder="Price per Litre (₦)" required>
+            <button type="submit">Submit Report</button>
+        </form>
+    </section>
 
-<section>
-<h2>Trusted Access 🔐</h2>
-<form onsubmit="applyForTrust(); return false;">
-<input id="full_name" placeholder="Full Name" required>
-<input id="email" placeholder="Email" required>
-<input id="phone" placeholder="Phone Number" required>
-<input id="address" placeholder="Address" required>
-<button type="submit" style="background:#333; border:1px solid #555;">Apply for Access</button>
-<p id="apiKeyInfo" style="margin-top:10px; color:#aaa; font-size:0.9em;"></p>
-</form>
-</section>
+    <section style="border-top: 1px solid #333; padding-top: 20px;">
+        <details>
+            <summary style="color: #666; cursor: pointer;">Advanced / Admin Options</summary>
+            
+            <div style="margin-top: 20px;">
+                <h3 style="color:#aaa; font-size:1em;">Get Verified Access</h3>
+                <form onsubmit="applyForTrust(); return false;">
+                    <input id="full_name" placeholder="Full Name" required>
+                    <input id="email" placeholder="Email" required>
+                    <input id="phone" placeholder="Phone" required>
+                    <input id="address" placeholder="Address" required>
+                    <button type="submit" style="background:#444;">Apply</button>
+                    <p id="apiKeyInfo" style="color:#ff4e00; font-size:0.9em;"></p>
+                </form>
 
-<section>
-<h2>Update Price 🔄</h2>
-<form onsubmit="updatePriceFunc(); return false;">
-<input id="updateId" placeholder="Price ID" required>
-<input id="updatePrice" type="number" placeholder="New Price" required>
-<input id="apiKey" placeholder="Your API Key" required>
-<button type="submit">Update Price</button>
-</form>
-</section>
+                <h3 style="color:#aaa; font-size:1em; margin-top:20px;">Update Existing Price</h3>
+                <form onsubmit="updatePriceFunc(); return false;">
+                    <input id="updateId" placeholder="Price ID" required>
+                    <input id="updatePrice" type="number" placeholder="New Price" required>
+                    <input id="apiKey" placeholder="API Key" required>
+                    <button type="submit" style="background:#444;">Update</button>
+                </form>
 
-<section>
-<h2>Admin 🛡️</h2>
-<button id="adminLoginBtn" class="admin-btn" onclick="adminLogin()">Login as Admin</button>
-<button id="adminLogoutBtn" class="admin-btn" onclick="adminLogout()" style="display:none;">Logout</button>
-</section>
-
-<section>
-<h2>Latest Reports</h2>
-<ul id="prices"></ul>
-</section>
+                <button id="adminLoginBtn" class="admin-btn" onclick="adminLogin()">Admin Login</button>
+                <button id="adminLogoutBtn" class="admin-btn" onclick="adminLogout()" style="display:none;">Admin Logout</button>
+            </div>
+        </details>
+    </section>
 </div>
 
 <script>
 // ---------------------------
-// Public Functions
+// Logic
+// ---------------------------
+
+async function loadPrices(){
+    const res = await fetch("/prices");
+    const data = await res.json();
+    const list = document.getElementById("prices");
+    list.innerHTML="";
+    
+    let totalPrice=0, count=0;
+
+    data.forEach(p => {
+        // Clean Logic for Styling
+        const isVerified = p.verified === 1;
+        const statusClass = isVerified ? "status-verified" : "status-pending";
+        const badgeText = isVerified ? "Verified" : "Pending";
+        const badgeColor = isVerified ? "text-green" : "text-yellow";
+
+        list.innerHTML += `
+        <li class="price-item ${statusClass}">
+            <div class="station-info">
+                <span class="station-name">${p.station}</span>
+                <span class="station-loc">${p.location}</span>
+                </div>
+            <div class="price-info">
+                <div class="price-val">₦${p.price}</div>
+                <div class="price-badge ${badgeColor}">${badgeText}</div>
+            </div>
+        </li>
+        `;
+
+        if(isVerified){ totalPrice+=parseFloat(p.price); count++; }
+    });
+
+    const avgPrice = count? (totalPrice/count).toFixed(0) : "--";
+    document.getElementById("priceSnapshot").innerText = `Lagos Average: ₦${avgPrice} / Litre`;
+}
+
+// ---------------------------
+// Standard Form Functions (Same as before)
 // ---------------------------
 async function submitPrice(){
     const station=document.getElementById("station").value;
     const location=document.getElementById("location").value;
     const price=parseFloat(document.getElementById("price").value);
+    
+    // Simple Validation
+    if(price < 500 || price > 2000) {
+        if(!confirm("That price seems unusual. Are you sure?")) return;
+    }
+
     const res = await fetch("/submit-price",{
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({station,location,price})
     });
     const data = await res.json();
-    if(data.message){
-        alert(data.message);
+    alert(data.message || data.error);
+    if(data.message) {
         document.getElementById("station").value="";
         document.getElementById("location").value="";
         document.getElementById("price").value="";
         loadPrices();
-    } else alert(data.error);
+    }
 }
 
 async function applyForTrust(){
@@ -198,12 +253,8 @@ async function applyForTrust(){
     });
     const data = await res.json();
     if(data.api_key){
-        alert(`Application submitted! Your API Key: ${data.api_key}`);
-        document.getElementById("full_name").value="";
-        document.getElementById("email").value="";
-        document.getElementById("phone").value="";
-        document.getElementById("address").value="";
-        document.getElementById("apiKeyInfo").innerText=`Your API Key: ${data.api_key} (keep it safe!)`;
+        alert("Application Sent!");
+        document.getElementById("apiKeyInfo").innerText=`KEY: ${data.api_key}`;
     } else alert(data.error);
 }
 
@@ -218,40 +269,11 @@ async function updatePriceFunc(){
     });
     const data = await res.json();
     alert(data.message || data.error);
-    document.getElementById("updateId").value="";
-    document.getElementById("updatePrice").value="";
-    document.getElementById("apiKey").value="";
     loadPrices();
 }
 
-// ---------------------------
-// Load Prices
-// ---------------------------
-async function loadPrices(){
-    const res = await fetch("/prices");
-    const data = await res.json();
-    const list = document.getElementById("prices");
-    list.innerHTML="";
-    let totalPrice=0, count=0;
-    data.forEach(p=>{
-        const status=p.verified?'<span class="badge verified">Verified</span>':'<span class="badge pending">Pending</span>';
-        list.innerHTML+=`<li>
-            <div style="font-weight:bold; font-size:1.1em;">${p.station}</div>
-            <div style="color:#aaa;">${p.location}</div>
-            <div style="font-size:1.2em; color:#ffb570;">₦${p.price}</div>
-            <div style="font-size:0.8em; color:#666;">${status}</div>
-        </li>`;
-        if(p.verified){ totalPrice+=parseFloat(p.price); count++; }
-    });
-    const avgPrice = count? (totalPrice/count).toFixed(2) : "--";
-    document.getElementById("priceSnapshot").innerText = `Lagos Avg: ₦${avgPrice}`;
-}
-
-// ---------------------------
-// Admin Login
-// ---------------------------
 async function adminLogin(){
-    const key = prompt("Enter Admin Secret Key:");
+    const key = prompt("Admin Key:");
     if(!key) return;
     const res = await fetch("/admin-login",{
         method:"POST",
@@ -260,16 +282,13 @@ async function adminLogin(){
         credentials: "same-origin"
     });
     const data = await res.json();
-    if(data.message){
-        alert(data.message);
-        document.getElementById("adminLoginBtn").style.display="none";
-        document.getElementById("adminLogoutBtn").style.display="inline-block";
-        window.location.href="/admin";
-    } else alert(data.error);
+    if(data.message) window.location.href="/admin";
+    else alert("Wrong Key");
 }
 
 function adminLogout(){ fetch("/admin-logout").then(()=>window.location.reload()); }
 
+// Load on start
 loadPrices();
 </script>
 
